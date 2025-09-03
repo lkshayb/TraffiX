@@ -3,7 +3,7 @@
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useEffect,useRef,useId} from "react";
-import { LineChart,ResponsiveContainer,Line, Area,Tooltip, AreaChart } from "recharts";
+import { ResponsiveContainer, Area,Tooltip, AreaChart } from "recharts";
 
 
 function PreviewLocation(props:any){
@@ -157,7 +157,7 @@ function TrafficDensityMap({ collapsed }: { collapsed: boolean }){
           Traffic Analytics
         </div>
         <div className="flex justify-center h-24 border-t-1 border-white/10 mt-5 pt-2 ">
-          <ResponsiveContainer width="80%" height={110}>
+          <ResponsiveContainer width="90%" height={110}>
             <AreaChart width={730} height={250} data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
