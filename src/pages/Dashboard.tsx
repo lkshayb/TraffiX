@@ -8,7 +8,7 @@ import { ResponsiveContainer, Area,Tooltip, AreaChart } from "recharts";
 
 function PreviewLocation(props:any){
   return (
-    <div className="text-white bg-slate-800 flex rounded-lg w-[350px] h-[320px] py-5 px-4 flex flex-col">
+    <div className="text-white bg-slate-800 flex rounded-lg w-[390px] h-[320px] py-5 px-4 flex flex-col">
       <span className="font-medium text-xl font-[work-sans] mb-4 ml-1">{props.location}</span>
       <div>
         <img className=" h-[230px] rounded-sm" src={props.cctv_preview} alt="Couldn't Load the Preview" />
@@ -42,12 +42,12 @@ function TrafficDensityMap({ collapsed }: { collapsed: boolean }){
               {
                  type: "Feature",
                  geometry: { type: "Point", coordinates: [77.209, 28.6139] },
-                 properties: { density: 1 },
+                 properties: { density: 0.1 },
                },
               {
                 type: "Feature",
                 geometry: { type: "Point", coordinates: [77.15, 28.65] },
-                properties: { "density": 0 },
+                properties: { "density": 0.7},
               },
               {
                 type: "Feature",
@@ -77,11 +77,9 @@ function TrafficDensityMap({ collapsed }: { collapsed: boolean }){
               ["linear"],
               ["heatmap-density"],
               0, "rgba(0,0,255,0)",   // blue transparent
-              0.2, "blue",
-              0.4, "cyan",
               0.6, "lime",
               0.8, "yellow",
-              1, "red"
+              1, "rgb(248, 43, 43)"
             ],
 
             "heatmap-radius": [
@@ -89,7 +87,7 @@ function TrafficDensityMap({ collapsed }: { collapsed: boolean }){
               ["linear"],
               ["zoom"],   
               0, 50,                
-              10, 220 
+              10, 150 
             ],
 
             "heatmap-opacity": [
@@ -145,7 +143,7 @@ function TrafficDensityMap({ collapsed }: { collapsed: boolean }){
   ];
   
   return (
-    <div className="bg-slate-800 w-[450px] min-h-[300px] mr-10 rounded-lg text-white py-5 px-5">
+    <div className="bg-slate-800 w-[400px] min-h-[300px] mr-10 rounded-lg text-white py-5 px-5">
         <div className="font-medium text-xl font-[work-sans] ">
           Traffic Density Heatmap
         </div>
@@ -164,13 +162,30 @@ function TrafficDensityMap({ collapsed }: { collapsed: boolean }){
                   <stop offset="95%" stopColor="#639ef7" stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <Tooltip cursor={false}  />
-              <Area type="monotone" dataKey="congestion" stroke="#0366fc" fillOpacity={1} fill="url(#colorUv)" />
-
-            
-              
+              <Tooltip cursor={false} contentStyle={{
+                backgroundColor: "#1e293b",
+                border: "1px solid #334155",
+                borderRadius: "8px",
+                color: "#f8fafc", 
+                fontSize: "12px",
+              }} />
+              <Area type="monotone" dataKey="congestion" stroke="#0366fc" fillOpacity={1} fill="url(#colorUv)" />  
             </AreaChart>
           </ResponsiveContainer>
+        </div>
+        <div className="mt-10 flex justify-around">
+          <div className="">
+            <div className="text-2xl text-align-left">58km/h</div>
+            <div className="text-sm text-white/60">Average Speed</div>
+          </div>
+          <div className="">
+            <div className="text-2xl text-align-left">2300</div>
+            <div className="text-sm text-white/60">Vehicle Count</div>
+          </div>
+          <div className="">
+            <div className="text-2xl text-align-left">41%</div>
+            <div className="text-sm text-white/60">Congestion</div>
+          </div>
         </div>
     </div>
   )
@@ -179,12 +194,12 @@ function TrafficDensityMap({ collapsed }: { collapsed: boolean }){
 export default function Home({ collapsed }: { collapsed: boolean }) {
 
   return (
-    <div  className="bg-gradient-to-tr from-slate-950 to-slate-800 min-h-screen pt-25 flex justify-center">
+    <div  className="bg-gradient-to-tr from-slate-950 to-slate-800 min-h-screen pt-25 pb-100 flex justify-center">
       <div className="flex gap-4 flex-wrap justify-center">
         <PreviewLocation location="M.G Road" cctv_preview="https://images.pexels.com/photos/210182/pexels-photo-210182.jpeg"/>
-        <PreviewLocation location="CBD" cctv_preview="https://images.pexels.com/photos/210182/pexels-photo-210182.jpeg"/>
-        <PreviewLocation location="JanakPuri" cctv_preview="https://images.pexels.com/photos/210182/pexels-photo-210182.jpeg"/>
-        <PreviewLocation location="Seelampur" cctv_preview="https://images.pexels.com/photos/210182/pexels-photo-210182.jpeg"/>
+        <PreviewLocation location="Rajendra Place" cctv_preview="https://images.pexels.com/photos/210182/pexels-photo-210182.jpeg"/>
+        <PreviewLocation location="Yamuna Bank Crossing" cctv_preview="https://images.pexels.com/photos/210182/pexels-photo-210182.jpeg"/>
+        <PreviewLocation location="NH44 Exit 3" cctv_preview="https://images.pexels.com/photos/210182/pexels-photo-210182.jpeg"/>
       </div>
       <div>
         <TrafficDensityMap collapsed={collapsed}/>
