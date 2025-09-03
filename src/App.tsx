@@ -8,7 +8,7 @@ import Signal_Controls from './pages/signal-control.tsx'
 import Traffic_Analysis from './pages/traffic-analysis.tsx'
 import Cctv from './pages/Cctv.tsx'
 import PageNotFound from './pages/PageNotFound.tsx'
-import { useEffect, useState } from 'react'
+import {  useState } from 'react'
 function App() {
   const [collapse, setCollapse] = useState(true);
 
