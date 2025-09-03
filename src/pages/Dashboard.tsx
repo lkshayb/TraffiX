@@ -2,7 +2,7 @@
 
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { useEffect,useRef,useId} from "react";
+import { useEffect,useRef} from "react";
 import { ResponsiveContainer, Area,Tooltip, AreaChart } from "recharts";
 
 
