@@ -3,3 +3,26 @@
     font-family: work-sans;
     src: url(./assets/WorkSans-VariableFont_wght.ttf);
 }
+    
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b; 
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #475569; 
+}
+
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #1e293b #0f172a;
+}
