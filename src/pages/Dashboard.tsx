@@ -21,7 +21,6 @@ function PreviewLocation(props:any){
 function TrafficDensityMap({ collapsed }: { collapsed: boolean }){
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<maplibregl.Map | null>(null);
-  const gradientId = useId();
 
   useEffect(() => {
     if (mapContainerRef.current && !mapInstance.current) {
