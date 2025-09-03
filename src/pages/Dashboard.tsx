@@ -2,6 +2,8 @@
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useEffect,useRef } from "react";
+import { LineChart,ResponsiveContainer,Line } from "recharts";
+
 
 function PreviewLocation(props:any){
   return (
@@ -118,6 +120,20 @@ function TrafficDensityMap({ collapsed }: { collapsed: boolean }){
     };
   }, []);
 
+  const data = [
+    { time: "00:00", value: 80 },
+    { time: "01:00", value: 60 },
+    { time: "02:00", value: 70 },
+    { time: "03:00", value: 40 },
+    { time: "04:00", value: 10 },
+    { time: "05:00", value: 99 },
+    { time: "06:00", value: 75 },
+    { time: "07:00", value: 81 },
+    { time: "08:00", value: 50 },
+    { time: "08:00", value:10 },
+    { time: "10:00", value: 0 },
+  ];
+
   return (
     <div className="bg-slate-800 w-[450px] min-h-[300px] mr-10 rounded-lg text-white py-5 px-5">
         <div className="font-medium text-xl font-[work-sans] ">
@@ -125,6 +141,22 @@ function TrafficDensityMap({ collapsed }: { collapsed: boolean }){
         </div>
         <div className="flex justify-center h-[210px]">
           <div ref={mapContainerRef} className="h-full w-full rounded-lg mt-4" />
+        </div>
+        <div className="font-medium text-xl mt-20 font-[work-sans] ">
+          Traffic Analytics
+        </div>
+        <div className="flex justify-center h-24 border-t-1 border-white/10 mt-10 pt-2">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={data}>
+              <Line
+                type="monotone"
+                dataKey="value"
+                stroke="#3b82f6" 
+                strokeWidth={2}
+                dot={false}
+              />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
     </div>
   )
