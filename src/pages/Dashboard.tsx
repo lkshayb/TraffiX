@@ -1,8 +1,9 @@
 "use client";
+
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { useEffect,useRef } from "react";
-import { LineChart,ResponsiveContainer,Line } from "recharts";
+import { useEffect,useRef,useId} from "react";
+import { LineChart,ResponsiveContainer,Line, Area,Tooltip, AreaChart } from "recharts";
 
 
 function PreviewLocation(props:any){
@@ -20,6 +21,7 @@ function PreviewLocation(props:any){
 function TrafficDensityMap({ collapsed }: { collapsed: boolean }){
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<maplibregl.Map | null>(null);
+  const gradientId = useId();
 
   useEffect(() => {
     if (mapContainerRef.current && !mapInstance.current) {
@@ -121,19 +123,28 @@ function TrafficDensityMap({ collapsed }: { collapsed: boolean }){
   }, []);
 
   const data = [
-    { time: "00:00", value: 80 },
-    { time: "01:00", value: 60 },
-    { time: "02:00", value: 70 },
-    { time: "03:00", value: 40 },
-    { time: "04:00", value: 10 },
-    { time: "05:00", value: 99 },
-    { time: "06:00", value: 75 },
-    { time: "07:00", value: 81 },
-    { time: "08:00", value: 50 },
-    { time: "08:00", value:10 },
-    { time: "10:00", value: 0 },
+    { time: "00:00", congestion: 80 },
+    { time: "01:00", congestion: 60 },
+    { time: "02:00", congestion: 70 },
+    { time: "03:00", congestion: 40 },
+    { time: "04:00", congestion: 10 },
+    { time: "05:00", congestion: 99 },
+    { time: "06:00", congestion: 75 },
+    { time: "07:00", congestion: 81 },
+    { time: "08:00", congestion: 50 },
+    { time: "09:00", congestion: 35 },
+    { time: "10:00", congestion: 20 },
+    { time: "11:00", congestion: 65 },
+    { time: "12:00", congestion: 90 },
+    { time: "13:00", congestion: 55 },
+    { time: "14:00", congestion: 72 },
+    { time: "15:00", congestion: 30 },
+    { time: "16:00", congestion: 85 },
+    { time: "17:00", congestion: 60 },
+    { time: "18:00", congestion: 95 },
+    { time: "19:00", congestion: 40 },
   ];
-
+  
   return (
     <div className="bg-slate-800 w-[450px] min-h-[300px] mr-10 rounded-lg text-white py-5 px-5">
         <div className="font-medium text-xl font-[work-sans] ">
@@ -145,17 +156,21 @@ function TrafficDensityMap({ collapsed }: { collapsed: boolean }){
         <div className="font-medium text-xl mt-20 font-[work-sans] ">
           Traffic Analytics
         </div>
-        <div className="flex justify-center h-24 border-t-1 border-white/10 mt-10 pt-2">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={data}>
-              <Line
-                type="monotone"
-                dataKey="value"
-                stroke="#3b82f6" 
-                strokeWidth={2}
-                dot={false}
-              />
-            </LineChart>
+        <div className="flex justify-center h-24 border-t-1 border-white/10 mt-5 pt-2 ">
+          <ResponsiveContainer width="80%" height={110}>
+            <AreaChart width={730} height={250} data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+              <defs>
+                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#639ef7" stopOpacity={0.5}/>
+                  <stop offset="95%" stopColor="#639ef7" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <Tooltip cursor={false}  />
+              <Area type="monotone" dataKey="congestion" stroke="#0366fc" fillOpacity={1} fill="url(#colorUv)" />
+
+            
+              
+            </AreaChart>
           </ResponsiveContainer>
         </div>
     </div>
