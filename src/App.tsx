@@ -10,7 +10,7 @@ import Cctv from './pages/Cctv.tsx'
 import PageNotFound from './pages/PageNotFound.tsx'
 import {  useState } from 'react'
 function App() {
-  const [collapse, setCollapse] = useState(true);
+  const [collapse, setCollapse] = useState(false);
 
   
   const navigate = useNavigate();
@@ -76,7 +76,7 @@ function App() {
               </div>
           </nav>
           <Routes>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/" element={<Dashboard collapsed={collapse}/>} />
             <Route path="/cctv" element={<Cctv />} />
             <Route path="/traffic-analysis" element={<Traffic_Analysis />} />
             <Route path="/signal-control" element={<Signal_Controls />} />
