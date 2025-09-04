@@ -20,7 +20,7 @@ function App() {
       <div className='md:flex hidden h-screen bg-background'>
         <div className={` group flex  bg-slate-950 text-white border-r-2 border-slate-600/50   hover:w-1/6 w-1/20 transition-all duration-300`}>
           <div className='w-full flex flex-col overflow-auto'>
-            <div className='flex px-2 py-2 min-w-60 mx-[8px] hover:bg-slate-800 duration-300  rounded-md  mt-4 cursor-pointer gap-5 items-center h-14 pl-4'>
+            <div className='flex px-2 py-2 min-w-60 mx-[8px] duration-300  rounded-md  mt-4 cursor-pointer gap-5 items-center h-14 pl-4'>
               <PanelRightClose  className={`group-hover:hidden flex transition-all duration-300`} />
               <PanelRightOpen  className={`group-hover:flex hidden transition-all duration-300`} />
               <span className={`group-hover:block hidden text-2xl font-bold`}>Menu</span>

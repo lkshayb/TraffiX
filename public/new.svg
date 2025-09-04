@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Favicon-style logo for Traffix (tiny, transparent background) --><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect x="20" y="4" width="24" height="56" rx="6" fill="#0b0b0b" />  <!-- red light -->  <circle cx="32" cy="16" r="8" fill="#e53935" />
+  <!-- yellow light -->
+  <circle cx="32" cy="32" r="8" fill="#f4c542" />
+  <!-- green light -->
+  <circle cx="32" cy="48" r="8" fill="#2ecc71" />
+</svg>
