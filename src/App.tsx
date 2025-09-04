@@ -16,7 +16,7 @@ function App() {
   const navigate = useNavigate();
   return (
     <div className='font-[work-sans]'>
-      <div className='flex h-screen bg-background'>
+      <div className='md:flex hidden h-screen bg-background'>
         <div className={`flex  bg-slate-950 text-white border-r-2 border-slate-600/50 ${collapse ? 'w-1/20' : 'w-1/6'} transition-all duration-300`}>
           <div className='w-full flex flex-col overflow-auto'>
             <div onClick={() => setCollapse(!collapse)} className='flex px-2 py-2 min-w-60 mx-[8px] hover:bg-slate-800 duration-300  rounded-md  mt-4 cursor-pointer gap-5 items-center h-14 pl-4'>
@@ -86,7 +86,10 @@ function App() {
         </div>
         
       </div>
-      
+      <div className='h-screen flex flex-col text-xl justify-center items-center md:hidden'>
+        PLEASE VIEW ON PC
+        <span className='text-gray-600 text-sm'>Mobile Screens Currently not Supported</span>
+      </div>
     </div>
   )
 }
