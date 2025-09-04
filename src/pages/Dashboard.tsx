@@ -18,7 +18,7 @@ function PreviewLocation(props:any){
   )
 }
 
-function TrafficDensityMap({ collapsed }: { collapsed: boolean }){
+function TrafficDensityMap(){
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<maplibregl.Map | null>(null);
 
@@ -103,12 +103,6 @@ function TrafficDensityMap({ collapsed }: { collapsed: boolean }){
     }
   }, []);
 
-  useEffect(() => {
-    console.log("val is : ",collapsed);
-    setTimeout(() => {
-      if (mapInstance.current) mapInstance.current.resize();
-    }, 500);
-  },[collapsed]);
 
   useEffect(() => {
     return () => {
@@ -295,7 +289,7 @@ function Traffic_average(){
   )
 }
 
-export default function Home({ collapsed }: { collapsed: boolean }) {
+export default function Home() {
 
   return (
     <div  className="bg-gradient-to-tr from-slate-950 to-slate-800 min-h-screen pt-25 pb-100 flex justify-center items-center w-[100%]">
@@ -312,7 +306,7 @@ export default function Home({ collapsed }: { collapsed: boolean }) {
       </div>
       
       <div>
-        <TrafficDensityMap collapsed={collapsed}/>
+        <TrafficDensityMap />
         <div>
           <Signal_control/>
         </div>
