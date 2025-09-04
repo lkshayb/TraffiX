@@ -67,7 +67,7 @@ function App() {
           
         </div>
         <div className='flex-1 overflow-auto position-relative'>
-          <nav className={` flex items-center justify-between position-absolute z-2 fixed top-0 w-full  px-6 py-4 bg-slate-800/50 backdrop-blur-2xl  text-white border-b-1 border-slate-600/50`}>
+          <nav className={` flex items-center justify-between position-absolute z-2 fixed top-0 w-full ${collapse ? "pr-30" : "pr-80"} pl-6 py-4 bg-slate-800/50 backdrop-blur-2xl  text-white border-b-1 border-slate-600/50`}>
             <div className='text-3xl font-semibold cursor-pointer' onClick={() => navigate('/')} >Traffi<span className='text-4xl font-bold text-[#EF4444]'>X</span></div>
               <div className='flex gap-8'>
                 <BellIcon/>

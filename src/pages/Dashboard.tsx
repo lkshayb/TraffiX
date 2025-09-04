@@ -249,8 +249,6 @@ function Traffic_average(){
       <div className="font-medium text-2xl font-[work-sans] ">
         Traffic Average
       </div>
-      
-      {/* Stats Row */}
       <div className="flex justify-around items-center mt-5 mb-6">
         <div className="text-left">
           <div className="text-sm text-white/60">Average Speed</div>
@@ -300,15 +298,15 @@ function Traffic_average(){
 export default function Home({ collapsed }: { collapsed: boolean }) {
 
   return (
-    <div  className="bg-gradient-to-tr from-slate-950 to-slate-800 min-h-screen pt-25 pb-100 flex justify-center items-start">
-      <div className="ml-[85px]">
+    <div  className="bg-gradient-to-tr from-slate-950 to-slate-800 min-h-screen pt-25 pb-100 flex justify-center items-center w-[100%]">
+      <div className="ml-[85px] flex flex-col justify-center w-[100%]">
         <div className="flex gap-4 flex-wrap justify-center ">
           <PreviewLocation location="M.G Road" cctv_preview="https://images.pexels.com/photos/210182/pexels-photo-210182.jpeg"/>
           <PreviewLocation location="Rajendra Place" cctv_preview="https://images.pexels.com/photos/210182/pexels-photo-210182.jpeg"/>
           <PreviewLocation location="Yamuna Bank Crossing" cctv_preview="https://images.pexels.com/photos/210182/pexels-photo-210182.jpeg"/>
           <PreviewLocation location="NH44 Exit 3" cctv_preview="https://images.pexels.com/photos/210182/pexels-photo-210182.jpeg"/>
         </div>
-        <div>
+        <div className="flex justify-center mr-4">
           <Traffic_average/>
         </div>
       </div>
@@ -316,7 +314,7 @@ export default function Home({ collapsed }: { collapsed: boolean }) {
       <div>
         <TrafficDensityMap collapsed={collapsed}/>
         <div>
-        <Signal_control/>
+          <Signal_control/>
         </div>
       </div>
     </div>
