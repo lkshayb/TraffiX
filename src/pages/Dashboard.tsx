@@ -292,7 +292,7 @@ function Traffic_average(){
 export default function Home() {
 
   return (
-    <div  className="bg-gradient-to-tr from-slate-950 to-slate-800 min-h-screen pt-25 pb-100 flex justify-center items-center w-[100%]">
+    <div  className="bg-gradient-to-tr from-slate-950 to-slate-800 min-h-screen pt-25 pb-25 flex justify-center items-center w-[100%]">
       <div className="ml-[85px] flex flex-col justify-center w-[100%]">
         <div className="flex gap-4 flex-wrap justify-center ">
           <PreviewLocation location="M.G Road" cctv_preview="https://images.pexels.com/photos/210182/pexels-photo-210182.jpeg"/>
