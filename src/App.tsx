@@ -1,6 +1,6 @@
 
 import './App.css'
-import { Link, Route, Routes,  useNavigate } from 'react-router-dom'
+import { Link, Route, Routes,  useNavigate,useLocation  } from 'react-router-dom'
 import { BellIcon, UserRound, ArrowLeftToLine ,LayoutDashboard,ScanEye,CarFront,MessageSquareWarning,OctagonMinus} from 'lucide-react'
 import Dashboard from './pages/Dashboard.tsx'
 import Reports from './pages/reports.tsx'
@@ -14,6 +14,9 @@ function App() {
 
   
   const navigate = useNavigate();
+  const location = useLocation();
+  const currentPathname = location.pathname;
+  console.log(currentPathname)
   return (
     <div className='font-[work-sans]'>
       <div className='md:flex hidden h-screen bg-background'>
@@ -25,7 +28,7 @@ function App() {
             </div>
 
             <Link to="/">
-              <div className={'flex px-2 py-2 hover:bg-slate-800 duration-300 rounded-md min-w-60 mx-[8px] pl-4 mt-30 cursor-pointer gap-5 items-center h-14'}>
+              <div className={`flex px-2 py-2 hover:bg-slate-800 ${currentPathname == "/" ? "bg-slate-900" : ""} duration-300 rounded-md min-w-60 mx-[8px] pl-4 mt-30 cursor-pointer gap-5 items-center h-14`}>
                 <LayoutDashboard  /> 
                 <span className={`${collapse ? 'hidden' : ''} text-xl font-medium`}>Dashboard</span>
               </div>
@@ -33,7 +36,7 @@ function App() {
             
 
             <Link to="/cctv">
-              <div className={'flex px-2 py-2 hover:bg-slate-800 duration-300 rounded-md min-w-60 mx-[8px] mt-3 pl-4 cursor-pointer gap-5 items-center h-14'}>
+              <div className={`${currentPathname == "/cctv" ? "bg-slate-900" : ""} flex px-2 py-2 hover:bg-slate-800 duration-300 rounded-md min-w-60 mx-[8px] mt-3 pl-4 cursor-pointer gap-5 items-center h-14`}>
                 <ScanEye  /> 
                 <span className={`${collapse ? 'hidden' : ''} text-xl font-medium`}>CCTV Streams</span>
               </div>
@@ -41,7 +44,7 @@ function App() {
             
 
             <Link to="/traffic-analysis">
-              <div className={'flex px-2 py-2 hover:bg-slate-800 duration-300  rounded-md min-w-60 mx-[8px] mt-3 pl-4 cursor-pointer gap-5 items-center h-14'}>
+              <div className={`${currentPathname == "/traffic-analysis" ? "bg-slate-900" : ""} flex px-2 py-2 hover:bg-slate-800 duration-300  rounded-md min-w-60 mx-[8px] mt-3 pl-4 cursor-pointer gap-5 items-center h-14`}>
                 <CarFront  /> 
                 <span className={`${collapse ? 'hidden' : ''} text-xl font-medium`}>Traffic Analysis</span>
               </div>
@@ -49,14 +52,14 @@ function App() {
             
 
             <Link to="/signal-control">
-              <div className={'flex px-2 py-2 hover:bg-slate-800 duration-300  rounded-md  min-w-60 mx-[8px] mt-3 pl-4 cursor-pointer gap-5 items-center h-14'}>
+              <div className={`${currentPathname == "/signal-control" ? "bg-slate-900" : ""} flex px-2 py-2 hover:bg-slate-800 duration-300  rounded-md  min-w-60 mx-[8px] mt-3 pl-4 cursor-pointer gap-5 items-center h-14`}>
                 <OctagonMinus  /> 
                 <span className={`${collapse ? 'hidden' : ''} text-xl font-medium`}>Signal Controls</span>
               </div>
             </Link>
 
             <Link to="/reports">
-              <div className={'flex px-2 py-2 hover:bg-slate-800 duration-300  rounded-md min-w-60 mx-[8px] mt-3 pl-4 cursor-pointer gap-5 items-center h-14'}>
+              <div className={`${currentPathname == "/reports" ? "bg-slate-900" : ""} flex px-2 py-2 hover:bg-slate-800 duration-300  rounded-md min-w-60 mx-[8px] mt-3 pl-4 cursor-pointer gap-5 items-center h-14`}>
                 <MessageSquareWarning  /> 
                 <span className={`${collapse ? 'hidden' : ''} text-xl font-medium`}>Reports</span>
               </div>
@@ -68,7 +71,7 @@ function App() {
         </div>
         <div className='flex-1 overflow-auto position-relative'>
           <nav className={` flex items-center justify-between position-absolute z-2 fixed top-0 w-full ${collapse ? "pr-30" : "pr-80"} pl-6 py-4 bg-slate-800/50 backdrop-blur-2xl  text-white border-b-1 border-slate-600/50`}>
-            <div className='text-3xl font-semibold cursor-pointer' onClick={() => navigate('/')} >Traffi<span className='text-4xl font-bold text-[#EF4444]'>X</span></div>
+            <div className='text-3xl font-semibold cursor-pointer' onClick={() => navigate('/')} ><img src="./logo.png" alt="TraffiX" className='h-10' /></div>
               <div className='flex gap-8'>
                 <BellIcon/>
                 <UserRound/>
