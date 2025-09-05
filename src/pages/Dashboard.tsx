@@ -11,7 +11,7 @@ function PreviewLocation(props:any){
     <div className="text-white bg-slate-800 flex rounded-lg w-[390px] h-[270px] py-5 px-4 flex flex-col">
       <span className="font-medium text-xl font-[work-sans] mb-4 ml-1">{props.location}</span>
       <div className="flex justify-center items-center">
-        <img className=" h-[190px] w-[350px] rounded-sm" src={props.cctv_preview} alt="Couldn't Load the Preview" />
+        <video className=" h-[190px] w-[350px] rounded-sm" src={props.cctv_preview} muted loop autoPlay />
       </div>
       
     </div>
@@ -295,10 +295,10 @@ export default function Home() {
     <div  className="bg-gradient-to-tr from-slate-950 to-slate-800 min-h-screen pt-25 pb-25 flex justify-center items-center w-[100%]">
       <div className="ml-[85px] flex flex-col justify-center w-[100%]">
         <div className="flex gap-4 flex-wrap justify-center ">
-          <PreviewLocation location="M.G Road" cctv_preview="https://images.pexels.com/photos/210182/pexels-photo-210182.jpeg"/>
-          <PreviewLocation location="Rajendra Place" cctv_preview="https://images.pexels.com/photos/210182/pexels-photo-210182.jpeg"/>
-          <PreviewLocation location="Yamuna Bank Crossing" cctv_preview="https://images.pexels.com/photos/210182/pexels-photo-210182.jpeg"/>
-          <PreviewLocation location="NH44 Exit 3" cctv_preview="https://images.pexels.com/photos/210182/pexels-photo-210182.jpeg"/>
+          <PreviewLocation location="Uttam Nagar" cctv_preview="./vids/v1.mp4"/>
+          <PreviewLocation location="Rajendra Place" cctv_preview="./vids/v2.mp4"/>
+          <PreviewLocation location="Yamuna Bank Crossing" cctv_preview="./vids/v3.mp4"/>
+          <PreviewLocation location="NH44 Exit 3" cctv_preview="./vids/v4.mp4"/>
         </div>
         <div className="flex justify-center mr-4">
           <Traffic_average/>
