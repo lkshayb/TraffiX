@@ -1,10 +1,10 @@
 "use client";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ExternalLink } from "lucide-react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useEffect,useRef} from "react";
 import { ResponsiveContainer, Area,Tooltip, AreaChart} from "recharts";
-
+import { useNavigate } from "react-router-dom";
 
 function PreviewLocation(props:any){
   return (
@@ -135,11 +135,12 @@ function TrafficDensityMap(){
     { time: "18:00", congestion: 95 },
     { time: "19:00", congestion: 40 },
   ];
-  
+  const navigate = useNavigate();
   return (
     <div className="bg-slate-800 w-[400px] min-h-[300px] mr-[100px] rounded-lg text-white py-5 px-5">
-        <div className="font-medium text-xl font-[work-sans] ">
+        <div className="font-medium text-xl font-[work-sans] flex items-center justify-between">
           Traffic Density Heatmap
+          <ExternalLink onClick={() => navigate('/traffic-analysis')} className="cursor-pointer duration-300 hover:text-blue-400 text-blue-500"/>
         </div>
         <div className="flex justify-center h-[210px]">
           <div ref={mapContainerRef} className="h-full w-full rounded-lg mt-4" />
@@ -290,7 +291,7 @@ function Traffic_average(){
 }
 
 export default function Home() {
-
+  
   return (
     <div  className="bg-gradient-to-tr from-slate-950 to-slate-800 min-h-screen pt-25 pb-25 flex justify-center items-center w-[100%]">
       <div className="ml-[85px] flex flex-col justify-center w-[100%]">
