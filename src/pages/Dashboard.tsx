@@ -18,7 +18,7 @@ function loadGoogleMaps(callback: () => void) {
 
   const script = document.createElement("script");
   script.id = "googleMaps";
-  script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&libraries=visualization`;
+  script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCWSCiqBV5opBVeXMsk3D-OgtHF7fnh3P0&libraries=visualization`;
   script.async = true;
   script.defer = true;
   script.onload = callback;
