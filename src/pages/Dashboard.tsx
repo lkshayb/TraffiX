@@ -6,6 +6,29 @@ import { useEffect,useRef, useState} from "react";
 import { ResponsiveContainer, Area,Tooltip, AreaChart} from "recharts";
 import { useNavigate } from "react-router-dom";
 
+function loadGoogleMaps(callback: () => void) {
+  if (window.google && window.google.maps) {
+    callback();
+    return;
+  }
+
+  const existingScript = document.getElementById("googleMaps");
+  if (existingScript) {
+    existingScript.addEventListener("load", callback);
+    return;
+  }
+
+  const script = document.createElement("script");
+  script.id = "googleMaps";
+  script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&libraries=visualization`;
+  script.async = true;
+  script.defer = true;
+  script.onload = callback;
+  document.body.appendChild(script);
+}
+
+
+
 function PreviewLocation(props:any){
   
   return (
@@ -23,89 +46,29 @@ function TrafficDensityMap(){
   const heatMapRef = useRef<HTMLDivElement | null>(null);
   const lineMapRef = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<maplibregl.Map | null>(null);
-
-  useEffect(() => {
-    if (heatMapRef.current && !mapInstance.current) {
-      const map = new maplibregl.Map({
-        container: heatMapRef.current,
-        style: "https://api.maptiler.com/maps/streets/style.json?key=SjSnUEMaVUEmC0E8TN03",
-        center: [77.2090, 28.6139], 
-        zoom: 11,
-        attributionControl: false,
-      });
-      mapInstance.current = map;
-
-      map.on("load",() => {
-        map.addSource("traffic",{
-          type:"geojson",
-          data:{
-            type:"FeatureCollection",
-            features:[
-              {
-                 type: "Feature",
-                 geometry: { type: "Point", coordinates: [77.209, 28.6139] },
-                 properties: { density: 0.1 },
-               },
-              {
-                type: "Feature",
-                geometry: { type: "Point", coordinates: [77.15, 28.65] },
-                properties: { "density": 0.7},
-              },
-              {
-                type: "Feature",
-                geometry: { type: "Point", coordinates: [77.25, 28.60] },
-                properties: { density: 0.5 },
-              },
-            ]
-          }
-        });
-
-        map.addLayer({
-          id: "traffic-heat",
-          type: "heatmap",
-          source: "traffic",
-          maxzoom: 15,
-          paint:{
-            "heatmap-intensity": [
-              "interpolate",
-              ["linear"],
-              ["zoom"],
-              0, 1,
-              15, 3,
-            ],
-
-            "heatmap-color": [
-              "interpolate",
-              ["linear"],
-              ["heatmap-density"],
-              0, "rgba(0,0,255,0)",   // blue transparent
-              0.6, "lime",
-              0.8, "yellow",
-              1, "rgb(248, 43, 43)"
-            ],
-
-            "heatmap-radius": [
-              "interpolate",
-              ["linear"],
-              ["zoom"],   
-              0, 50,                
-              10, 150 
-            ],
-
-            "heatmap-opacity": [
-              "interpolate",
-              ["linear"],
-              ["zoom"],
-              10, 1,
-              15, 0,
-            ],
-          }
-        })
-      })
-    }
-  }, []);
-
-
+  const [activemap,setactivemap] = useState("maplibre");
+  const data = [
+      { time: "00:00", congestion: 80 },
+      { time: "01:00", congestion: 60 },
+      { time: "02:00", congestion: 70 },
+      { time: "03:00", congestion: 40 },
+      { time: "04:00", congestion: 10 },
+      { time: "05:00", congestion: 99 },
+      { time: "06:00", congestion: 75 },
+      { time: "07:00", congestion: 81 },
+      { time: "08:00", congestion: 50 },
+      { time: "09:00", congestion: 35 },
+      { time: "10:00", congestion: 20 },
+      { time: "11:00", congestion: 65 },
+      { time: "12:00", congestion: 90 },
+      { time: "13:00", congestion: 55 },
+      { time: "14:00", congestion: 72 },
+      { time: "15:00", congestion: 30 },
+      { time: "16:00", congestion: 85 },
+      { time: "17:00", congestion: 60 },
+      { time: "18:00", congestion: 95 },
+      { time: "19:00", congestion: 40 },
+    ];
   useEffect(() => {
     return () => {
       if (mapInstance.current) {
@@ -115,65 +78,58 @@ function TrafficDensityMap(){
     };
   }, []);
 
-  const data = [
-    { time: "00:00", congestion: 80 },
-    { time: "01:00", congestion: 60 },
-    { time: "02:00", congestion: 70 },
-    { time: "03:00", congestion: 40 },
-    { time: "04:00", congestion: 10 },
-    { time: "05:00", congestion: 99 },
-    { time: "06:00", congestion: 75 },
-    { time: "07:00", congestion: 81 },
-    { time: "08:00", congestion: 50 },
-    { time: "09:00", congestion: 35 },
-    { time: "10:00", congestion: 20 },
-    { time: "11:00", congestion: 65 },
-    { time: "12:00", congestion: 90 },
-    { time: "13:00", congestion: 55 },
-    { time: "14:00", congestion: 72 },
-    { time: "15:00", congestion: 30 },
-    { time: "16:00", congestion: 85 },
-    { time: "17:00", congestion: 60 },
-    { time: "18:00", congestion: 95 },
-    { time: "19:00", congestion: 40 },
-  ];
+  
   const navigate = useNavigate();
-  useEffect(() => {
-    const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap`;
-        script.async = true;
-        document.body.appendChild(script);
 
-        (window as any).initMap = () => {
-            if (!lineMapRef.current) return;
-      
-            const map = new google.maps.Map(lineMapRef.current, {
-                zoom: 12,
-                center: { lat: 28.6139, lng:77.2090}, 
-                mapTypeControl: false,
-                zoomControl: false,
-                streetViewControl: false,
-                fullscreenControl: false,
-                rotateControl: false, 
-                styles: [
-                    {
-                      featureType: "poi",       // POI = Points of Interest (shops, restaurants, etc.)
-                      elementType: "labels",    // hide the labels only
-                      stylers: [{ visibility: "off" }]
-                    }
-                ]
-            });
-      
-            const trafficLayer = new google.maps.TrafficLayer();
-            trafficLayer.setMap(map);
-        };
-        return () => {
-          delete (window as any).initMap;
-        }
+  
+
+  useEffect(() => {
+    loadGoogleMaps(() => {
+      if (!heatMapRef.current) return;
+  
+      const map = new google.maps.Map(heatMapRef.current, {
+        zoom: 12,
+        center: { lat: 28.6139, lng: 77.209 },
+      });
+  
+      const heatmap = new google.maps.visualization.HeatmapLayer({
+        data: [
+          new google.maps.LatLng(28.6139, 77.209),
+          new google.maps.LatLng(28.65, 77.15),
+          new google.maps.LatLng(28.6, 77.25),
+        ],
+        map,
+      });
+  
+      heatMapRef.current = heatmap;
+    });
+  })
+  useEffect(() => {
+    loadGoogleMaps(() => {
+      if (!lineMapRef.current) return;
+
+      const map = new google.maps.Map(lineMapRef.current, {
+        zoom: 12,
+        center: { lat: 28.6139, lng:77.2090}, 
+        mapTypeControl: false,
+        zoomControl: false,
+        streetViewControl: false,
+        fullscreenControl: false,
+        rotateControl: false, 
+        styles: [
+            {
+              featureType: "poi",       // POI = Points of Interest (shops, restaurants, etc.)
+              elementType: "labels",    // hide the labels only
+              stylers: [{ visibility: "off" }]
+            }
+        ]
+      });
+      const trafficLayer = new google.maps.TrafficLayer();
+      trafficLayer.setMap(map);
+    })
   })
   
   
-  const [activemap,setactivemap] = useState("maplibre");
   return (
     <div className="bg-slate-800 w-[400px] min-h-[300px] mr-[100px] rounded-lg text-white py-5 px-5">
         <div className="font-medium text-xl font-[work-sans] flex items-center justify-between">
@@ -187,7 +143,7 @@ function TrafficDensityMap(){
         <div className="flex h-[210px] w-full gap-2 group transition-all duration-500">
           <div 
             ref={heatMapRef} 
-            className={`flex-1 rounded-lg transition-all duration-500  ${activemap == "maplibre" ? "flex-1" : "hidden"}`} 
+            className={` rounded-lg transition-all duration-500  ${activemap == "maplibre" ? "flex-1" : "hidden"}`} 
             style={{ minWidth: "100px", height: "210px" }}  
           />
           <div 
