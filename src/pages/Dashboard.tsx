@@ -167,7 +167,9 @@ function TrafficDensityMap(){
             const trafficLayer = new google.maps.TrafficLayer();
             trafficLayer.setMap(map);
         };
-        return () => delete (window as any).initMap;
+        return () => {
+          delete (window as any).initMap;
+        }
   })
   
   

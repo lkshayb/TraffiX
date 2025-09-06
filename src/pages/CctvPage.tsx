@@ -5,8 +5,8 @@ export default function CctvPage(){
     const { userId } = useParams();
     const [location,setlocation] = useState<string | undefined>("");
     const [url,seturl] = useState<string | undefined>("");
-    const [lat,setlat] = useState<number>();
-    const [long,setlong] = useState<number>();
+    const [lat,setlat] = useState<number>(0);
+    const [long,setlong] = useState<number>(0);
     const mapRef = useRef<HTMLDivElement>(null)
     useEffect(() => {
         if (userId === "1") {
@@ -58,7 +58,9 @@ export default function CctvPage(){
             const trafficLayer = new google.maps.TrafficLayer();
             trafficLayer.setMap(map);
         };
-        return () => delete (window as any).initMap;
+        return () => {
+            delete (window as any).initMap;
+        };
         
     })
    
