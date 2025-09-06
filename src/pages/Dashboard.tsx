@@ -1,7 +1,5 @@
 "use client";
 import { ChevronDown, ExternalLink } from "lucide-react";
-import maplibregl from "maplibre-gl";
-import "maplibre-gl/dist/maplibre-gl.css";
 import { useEffect,useRef, useState} from "react";
 import { ResponsiveContainer, Area,Tooltip, AreaChart} from "recharts";
 import { useNavigate } from "react-router-dom";
@@ -45,7 +43,7 @@ function PreviewLocation(props:any){
 function TrafficDensityMap(){
   const heatMapRef = useRef<HTMLDivElement | null>(null);
   const lineMapRef = useRef<HTMLDivElement | null>(null);
-  const mapInstance = useRef<maplibregl.Map | null>(null);
+  const heatmapInstance = useRef<google.maps.visualization.HeatmapLayer | null>(null);
   const [activemap,setactivemap] = useState("maplibre");
   const data = [
       { time: "00:00", congestion: 80 },
@@ -69,14 +67,7 @@ function TrafficDensityMap(){
       { time: "18:00", congestion: 95 },
       { time: "19:00", congestion: 40 },
     ];
-  useEffect(() => {
-    return () => {
-      if (mapInstance.current) {
-        mapInstance.current.remove();
-        mapInstance.current = null;
-      }
-    };
-  }, []);
+
 
   
   const navigate = useNavigate();
@@ -101,9 +92,9 @@ function TrafficDensityMap(){
         map,
       });
   
-      heatMapRef.current = heatmap;
+      heatmapInstance.current = heatmap;
     });
-  })
+  },[])
   useEffect(() => {
     loadGoogleMaps(() => {
       if (!lineMapRef.current) return;
@@ -126,8 +117,11 @@ function TrafficDensityMap(){
       });
       const trafficLayer = new google.maps.TrafficLayer();
       trafficLayer.setMap(map);
+      return () => {
+        trafficLayer.setMap(null);
+      };
     })
-  })
+  },[])
   
   
   return (
