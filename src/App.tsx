@@ -8,6 +8,7 @@ import Signal_Controls from './pages/signal-control.tsx'
 import Traffic_Analysis from './pages/traffic-analysis.tsx'
 import Cctv from './pages/Cctv.tsx'
 import PageNotFound from './pages/PageNotFound.tsx'
+import CctvPage from './pages/CctvPage.tsx'
 import {  } from 'react'
 function App() {
   
@@ -80,6 +81,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/cctv" element={<Cctv />} />
+            <Route path="/cctv/:userId" element={<CctvPage />} />
             <Route path="/traffic-analysis" element={<Traffic_Analysis />} />
             <Route path="/signal-control" element={<Signal_Controls />} />
             <Route path="/reports" element={<Reports />} />

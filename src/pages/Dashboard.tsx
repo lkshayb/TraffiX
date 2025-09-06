@@ -2,16 +2,17 @@
 import { ChevronDown, ExternalLink } from "lucide-react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { useEffect,useRef} from "react";
+import { useEffect,useRef, useState} from "react";
 import { ResponsiveContainer, Area,Tooltip, AreaChart} from "recharts";
 import { useNavigate } from "react-router-dom";
 
 function PreviewLocation(props:any){
+  
   return (
-    <div className="text-white bg-slate-800 flex rounded-lg w-[390px] h-[270px] py-5 px-4 flex flex-col">
+    <div  className="group cursor-pointer text-white bg-slate-800 flex rounded-lg w-[390px] h-[270px] py-5 px-4 flex flex-col">
       <span className="font-medium text-xl font-[work-sans] mb-4 ml-1">{props.location}</span>
-      <div className="flex justify-center items-center">
-        <video className=" h-[190px] w-[350px] rounded-sm" src={props.cctv_preview} muted loop autoPlay />
+      <div className="overflow-hidden rounded-md">
+        <video className=" h-[200px] w-[360px] group-hover:opacity-70 duration-300 object-cover" src={props.cctv_preview} muted loop autoPlay />
       </div>
       
     </div>
@@ -19,13 +20,14 @@ function PreviewLocation(props:any){
 }
 
 function TrafficDensityMap(){
-  const mapContainerRef = useRef<HTMLDivElement | null>(null);
+  const heatMapRef = useRef<HTMLDivElement | null>(null);
+  const lineMapRef = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<maplibregl.Map | null>(null);
 
   useEffect(() => {
-    if (mapContainerRef.current && !mapInstance.current) {
+    if (heatMapRef.current && !mapInstance.current) {
       const map = new maplibregl.Map({
-        container: mapContainerRef.current,
+        container: heatMapRef.current,
         style: "https://api.maptiler.com/maps/streets/style.json?key=SjSnUEMaVUEmC0E8TN03",
         center: [77.2090, 28.6139], 
         zoom: 11,
@@ -136,15 +138,66 @@ function TrafficDensityMap(){
     { time: "19:00", congestion: 40 },
   ];
   const navigate = useNavigate();
+  useEffect(() => {
+    const script = document.createElement("script");
+        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap`;
+        script.async = true;
+        document.body.appendChild(script);
+
+        (window as any).initMap = () => {
+            if (!lineMapRef.current) return;
+      
+            const map = new google.maps.Map(lineMapRef.current, {
+                zoom: 12,
+                center: { lat: 28.6139, lng:77.2090}, 
+                mapTypeControl: false,
+                zoomControl: false,
+                streetViewControl: false,
+                fullscreenControl: false,
+                rotateControl: false, 
+                styles: [
+                    {
+                      featureType: "poi",       // POI = Points of Interest (shops, restaurants, etc.)
+                      elementType: "labels",    // hide the labels only
+                      stylers: [{ visibility: "off" }]
+                    }
+                ]
+            });
+      
+            const trafficLayer = new google.maps.TrafficLayer();
+            trafficLayer.setMap(map);
+        };
+        return () => delete (window as any).initMap;
+  })
+  
+  
+  const [activemap,setactivemap] = useState("maplibre");
   return (
     <div className="bg-slate-800 w-[400px] min-h-[300px] mr-[100px] rounded-lg text-white py-5 px-5">
         <div className="font-medium text-xl font-[work-sans] flex items-center justify-between">
-          Traffic Density Heatmap
+          Traffic Density Heatmap  <span className="text-red-800">TEST DEPLOYMENT</span>
           <ExternalLink onClick={() => navigate('/traffic-analysis')} className="cursor-pointer duration-300 hover:text-blue-400 text-blue-500"/>
         </div>
-        <div className="flex justify-center h-[210px]">
-          <div ref={mapContainerRef} className="h-full w-full rounded-lg mt-4" />
+        <div className="flex space-x-2">
+            <button onClick={() => setactivemap('maplibre')}>MapLibre</button>
+            <button onClick={() => setactivemap('google')}>Google</button>
+          </div>
+        <div className="flex h-[210px] w-full gap-2 group transition-all duration-500">
+          <div 
+            ref={heatMapRef} 
+            className={`flex-1 rounded-lg transition-all duration-500  ${activemap == "maplibre" ? "flex-1" : "hidden"}`} 
+            style={{ minWidth: "100px", height: "210px" }}  
+          />
+          <div 
+            ref={lineMapRef} 
+            className={`rounded-lg transition-all duration-500 ${activemap == "google" ? "flex-1":"hidden"}`} 
+            style={{ minWidth: "100px", height: "210px" }}  
+          />
+          
+          
+         
         </div>
+        
         <div className="font-medium text-xl mt-12 font-[work-sans] ">
           Traffic Analytics
         </div>
@@ -197,7 +250,7 @@ function Signal_control(){
           <div className="rounded-full bg-green-400 h-[12px] w-[12px] inline-block mr-2"></div>
           <div className="absolute animate-ping rounded-full bg-green-400 h-[12px] w-[12px] mr-2"></div>
         </div>
-        M.G. Road 
+        Uttam Nagar 
       </div>
       <div className="mt-10 flex justify-around">
           <div className="">
@@ -207,7 +260,7 @@ function Signal_control(){
           </div>
           <div className="">
             <div className="text-sm text-white/60">AI PREDICTION</div>
-            <div className="text-2xl text-align-left flex items-center gap-2"><ChevronDown color="#27f024"/>+15s</div>
+            <div className="text-2xl text-align-left flex items-center gap-2"><ChevronDown color="#27f024"/>+30s</div>
           </div>
         
         </div>
@@ -239,6 +292,7 @@ function Traffic_average(){
     { time: "18:00", congestion: 85 },
     { time: "19:00", congestion: 92 },
   ];
+  
   return (
     <div className="bg-slate-800 w-[795px] ml-4 mt-4 rounded-lg text-white pt-4 pb-1 px-5">
       <div className="font-medium text-2xl font-[work-sans] ">
@@ -281,7 +335,7 @@ function Traffic_average(){
         </div>
         <div className="text-left">
           <div className="text-sm text-white/60">Time Elapsed</div>
-          <div className="text-4xl font-semibold">00:45</div>
+          <div className="text-4xl font-semibold">01:58</div>
         </div>
       </div>
 
@@ -291,15 +345,16 @@ function Traffic_average(){
 }
 
 export default function Home() {
-  
+  const navigate = useNavigate();
   return (
     <div  className="bg-gradient-to-tr from-slate-950 to-slate-800 min-h-screen pt-25 pb-25 flex justify-center items-center w-[100%]">
       <div className="ml-[85px] flex flex-col justify-center w-[100%]">
         <div className="flex gap-4 flex-wrap justify-center ">
-          <PreviewLocation location="Uttam Nagar" cctv_preview="./vids/v1.mp4"/>
-          <PreviewLocation location="Rajendra Place" cctv_preview="./vids/v2.mp4"/>
-          <PreviewLocation location="Yamuna Bank Crossing" cctv_preview="./vids/v3.mp4"/>
-          <PreviewLocation location="NH44 Exit 3" cctv_preview="./vids/v4.mp4"/>
+          <div onClick={() => navigate('/cctv/1')} ><PreviewLocation location="Uttam Nagar" cctv_preview="./vids/v1.mp4"/></div>
+          <div onClick={() => navigate('/cctv/2')}><PreviewLocation location="Rajendra Place" cctv_preview="./vids/v2.mp4"/></div>
+          <div onClick={() => navigate('/cctv/3')}><PreviewLocation location="Yamuna Bank Crossing" cctv_preview="./vids/v3.mp4"/></div>
+          <div onClick={() => navigate('/cctv/4')}><PreviewLocation location="Shivaji Marg" cctv_preview="./vids/v4.mp4"/></div>
+          
         </div>
         <div className="flex justify-center mr-4">
           <Traffic_average/>
