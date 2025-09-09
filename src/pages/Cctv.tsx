@@ -6,8 +6,8 @@ export default function Cctv() {
     return (
       <div onClick={() => navigate('/cctv')} className="group cursor-pointer text-white bg-slate-800 flex rounded-lg w-[390px] h-[270px] py-5 px-4 flex flex-col">
         <span className="font-medium text-xl font-[work-sans] mb-4 ml-1">{props.location}</span>
-        <div className="flex justify-center items-center">
-          <video className=" h-[190px] w-[350px] rounded group-hover:opacity-70 duration-300" src={props.cctv_preview} muted loop autoPlay />
+        <div className="rounded-lg overflow-hidden">
+          <video className=" h-[190px] w-full object-cover group-hover:opacity-70 duration-300" src={props.cctv_preview} muted loop autoPlay />
         </div>
         
       </div>
@@ -24,7 +24,7 @@ export default function Cctv() {
         <div onClick={() => navigate('/cctv/1')} ><PreviewLocation location="Uttam Nagar" cctv_preview="./vids/v1.mp4"/></div>
           <div onClick={() => navigate('/cctv/2')}><PreviewLocation location="Rajendra Place" cctv_preview="./vids/v2.mp4"/></div>
           <div onClick={() => navigate('/cctv/3')}><PreviewLocation location="Yamuna Bank Crossing" cctv_preview="./vids/v3.mp4"/></div>
-          <div onClick={() => navigate('/cctv/4')}><PreviewLocation location="NH44 Exit 3" cctv_preview="./vids/v4.mp4"/></div>
+          <div onClick={() => navigate('/cctv/4')}><PreviewLocation location="Shivaji Marg" cctv_preview="./vids/v4.mp4"/></div>
         </div>
     </div>
   )
