@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import { MoonLoader } from "react-spinners";
 
 export default function CctvPage(){
     const { userId } = useParams();
@@ -160,12 +161,29 @@ export default function CctvPage(){
         })
       }
     }, []);
+    const [videoLoaded, setVideoLoaded] = useState(false);
     return (
         <div className=" flex flex-col font-[work-sans] bg-gradient-to-tr from-slate-950 to-slate-800 min-h-screen pt-25 pb-25 flex justify-center items-start w-[100%] text-white pl-[100px]">
             <div className="text-4xl font-medium text-green-500 mb-20">{location}<span className=" font-medium text-white"> CCTV Camera</span></div> 
             <div className="flex gap-10">
-                <div className="rounded-lg overflow-hidden">
-                    {url ? <video className={`h-[390px] w-[550px] object-cover`} src={url} muted loop autoPlay /> : null}
+                <div className="rounded-lg overflow-hidden relative">
+                    {!videoLoaded && (
+                      <div className="absolute inset-0 bg-slate-700/60 animate-pulse flex items-center justify-center text-slate-300 text-sm h-[390px] w-[550px]">
+                        <MoonLoader size={30} color="#ffffff"/>
+                      </div>
+                    )}
+                    {url ? (
+                      <video 
+                        className={`h-[390px] w-[550px] object-cover ${videoLoaded ? 'opacity-100' : 'opacity-0'}`}
+                        src={url} 
+                        muted 
+                        loop 
+                        autoPlay 
+                        preload="metadata"
+                        onLoadedData={() => setVideoLoaded(true)}
+                        onError={() => setVideoLoaded(true)}
+                      />
+                    ) : null}
                 </div>
                 <div className="bg-red-100  h-content w-content rounded-lg overflow-hidden">
                     <div

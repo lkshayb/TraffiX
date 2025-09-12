@@ -1,20 +1,35 @@
 "use client";
 import { ChevronDown, ExternalLink } from "lucide-react";
-import { useEffect,useRef} from "react";
+import { useEffect,useRef, useState} from "react";
 import { ResponsiveContainer, Area,Tooltip, AreaChart} from "recharts";
 import { useNavigate } from "react-router-dom";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import { MoonLoader } from "react-spinners";
 
 
 
 function PreviewLocation(props:any){
-  
+  const [videoLoaded, setVideoLoaded] = useState(false);
   return (
     <div  className="group cursor-pointer text-white bg-slate-800 flex rounded-lg w-[390px] h-[270px] py-5 px-4 flex flex-col">
       <span className="font-medium text-xl font-[work-sans] mb-4 ml-1">{props.location}</span>
-      <div className="overflow-hidden rounded-md">
-        <video className=" h-[200px] w-[360px] group-hover:opacity-70 duration-300 object-cover" src={props.cctv_preview} muted loop autoPlay />
+      <div className="overflow-hidden rounded-md relative h-[200px] w-[360px]">
+        {!videoLoaded && (
+          <div className="absolute inset-0 bg-slate-700/60 animate-pulse flex items-center justify-center text-slate-300 text-sm">
+            <MoonLoader size={30} color="#ffffff"/>
+          </div>
+        )}
+        <video 
+          className={`h-[200px] w-[360px] group-hover:opacity-70 duration-300 object-cover ${videoLoaded ? 'opacity-100' : 'opacity-0'}`}
+          src={props.cctv_preview} 
+          muted 
+          loop 
+          autoPlay 
+          preload="metadata"
+          onLoadedData={() => setVideoLoaded(true)}
+          onError={() => setVideoLoaded(true)}
+        />
       </div>
       
     </div>
