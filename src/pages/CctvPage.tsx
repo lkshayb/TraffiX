@@ -8,8 +8,6 @@ export default function CctvPage(){
     const { userId } = useParams();
     const [location,setlocation] = useState<string | undefined>("");
     const [url,seturl] = useState<string | undefined>("");
-    const [lat,setlat] = useState<number>(0);
-    const [long,setlong] = useState<number>(0);
     const heatMapRef = useRef<HTMLDivElement>(null)
     const mapInstance = useRef<maplibregl.Map | null>(null);
 
