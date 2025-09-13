@@ -76,18 +76,12 @@ export default function CctvPage(){
         if (userId === "1") {
             seturl("/vids/v1.mp4");
             setlocation("Uttam Nagar");
-            setlat(28.625534);
-            setlong(77.067073);
           } else if (userId === "2") {
             seturl("/vids/v2.mp4");
             setlocation("Rajendra Place");
-            setlat(28.632455);
-            setlong(77.148709);
           } else if(userId === "3") {
             seturl("/vids/v3.mp4");
             setlocation("Yamuna Bank Crossing");
-            setlat(28.618377);
-            setlong(77.279826);
           } else if(userId === "4") {
             seturl("/vids/v4.mp4");
             setlocation("Shivaji Marg");
